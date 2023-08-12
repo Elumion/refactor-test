@@ -1,0 +1,5 @@
+node_modules/
+
+####    Webpack auto create this files after build  ####
+assets/app.css
+assets/app.js
