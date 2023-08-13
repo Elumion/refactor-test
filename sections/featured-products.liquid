@@ -1,0 +1,97 @@
+{{ 'featured-products.css' | asset_url | stylesheet_tag }}
+{{ 'featured-products.js' | asset_url | script_tag }}
+
+<style>
+  .featured-products__collection .item__inner .action-btn{
+    background-color: {{ section.settings.bg-color }};
+  }
+</style>
+
+<div class="featured-products">
+  <h2 class="featured-products__title">{{ section.settings.title }}</h2>
+  <ul class="featured-products__collection">
+    {% for product in section.settings.products_collection.products %}
+      {% liquid
+        assign check = true
+      %}
+      {% for item in cart.items %}
+        {% assign first = product.variants.first %}
+        {% if item.id == first.id %}
+          {% liquid
+            assign check = false
+          %}
+        {% endif %}
+      {% endfor %}
+      {% if check != blank %}
+        <li class="featured-products__collection--item">
+          {% assign product_image = product.featured_image %}
+          {% if product_image != blank %}
+            <a class="item__link" href="{{ product.url }}">
+              <img
+                class="item__img"
+                src="{{ product_image | image_url: width: product_image.width }}"
+                alt="{{ product_image.alt }}"
+                width="500"
+                height="500"
+              >
+            </a>
+          {% endif %}
+          <div class="item__inner">
+            <h3 class="item__inner--title">
+              <a class="item__link" href="{{ product.url }}">{{ product.title }}</a>
+            </h3>
+            <form method="post" action="/cart/add" class="featured-products__quick-add-btn">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+              {% comment %} <input min="1" type="number" id="quantity" name="quantity" value="1"> {% endcomment %}
+              <input
+                type="submit"
+                value="Add to cart - {{ product.price | money_without_trailing_zeros }}"
+                class="btn action-btn"
+              >
+            </form>
+          </div>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Title",
+      "placeholder": "Text",
+      "id": "title"
+    },
+    {
+      "type": "collection",
+      "id": "products_collection",
+      "label": "Featured products collection"
+    },
+    {
+      "type": "header",
+      "content": "Button settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "label": "Background color",
+      "id": "bg-color",
+      "default": "#4A97AF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}
