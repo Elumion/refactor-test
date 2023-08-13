@@ -1,0 +1,99 @@
+.featured-products {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  &__title {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-family: var(--font-inter);
+    font-weight: 800;
+    font-size: 26px;
+    line-height: 42px;
+    color: #367488;
+  }
+  &__collection {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    &--item {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .item__img {
+        height: 295px;
+        width: 100%;
+        object-fit: cover;
+      }
+      .item__inner {
+        padding: 0 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        &--title {
+          margin: 0;
+          font-family: var(--font-inter);
+          font-weight: 500;
+          font-size: 20px;
+          line-height: 26px;
+          .item__link {
+            display: flex;
+            justify-content: center;
+            text-decoration: none;
+            color: #000;
+            text-align: center;
+          }
+        }
+        .action-btn {
+          text-align: center;
+          cursor: pointer;
+          font-family: var(--font-inter);
+          color: #fff;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 26px;
+          display: block;
+          width: 100%;
+          padding: 20px 35px;
+          border-radius: 40px;
+          border: none;
+        }
+      }
+    }
+
+    @media screen and (min-width: 728px) {
+      & {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        column-gap: 30px;
+        row-gap: 89px;
+        flex-wrap: wrap;
+        &--item {
+          gap: 50px;
+          .item__img {
+            height: 357px;
+          }
+          width: 443px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      & {
+        padding: 0 30px;
+        column-gap: 50px;
+      }
+    }
+    @media screen and (min-width: 1440px) {
+      & {
+        padding: 0 227px;
+        column-gap: 100px;
+      }
+    }
+  }
+}

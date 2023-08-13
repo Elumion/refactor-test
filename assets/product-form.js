@@ -92,6 +92,10 @@ if (!customElements.get('product-form')) {
             if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
             if (!this.error) this.submitButton.removeAttribute('aria-disabled');
             this.querySelector('.loading-overlay__spinner').classList.add('hidden');
+
+            if(typeof this.dataset.hideOnAdd === 'string'){
+              this.parentElement.parentElement.parentElement.remove()
+            }
           });
       }
 
