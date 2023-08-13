@@ -14,42 +14,20 @@
       {% liquid
         assign check = true
       %}
-      {% for item in cart.items %}
-        {% assign first = product.variants.first %}
-        {% if item.id == first.id %}
-          {% liquid
-            assign check = false
-          %}
-        {% endif %}
-      {% endfor %}
-      {% if check != blank %}
-        <li class="featured-products__collection--item">
-          {% assign product_image = product.featured_image %}
-          {% if product_image != blank %}
-            <a class="item__link" href="{{ product.url }}">
-              <img
-                class="item__img"
-                src="{{ product_image | image_url: width: product_image.width }}"
-                alt="{{ product_image.alt }}"
-                width="500"
-                height="500"
-              >
-            </a>
+      {% if cart.item_count > 1 %}
+        {% for item in cart.items %}
+          {% assign first = product.variants.first %}
+          {% if item.id == first.id %}
+            {% liquid
+              assign check = false
+            %}
           {% endif %}
-          <div class="item__inner">
-            <h3 class="item__inner--title">
-              <a class="item__link" href="{{ product.url }}">{{ product.title }}</a>
-            </h3>
-            <form method="post" action="/cart/add" class="featured-products__quick-add-btn">
-              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-              {% comment %} <input min="1" type="number" id="quantity" name="quantity" value="1"> {% endcomment %}
-              <input
-                type="submit"
-                value="Add to cart - {{ product.price | money_without_trailing_zeros }}"
-                class="btn action-btn"
-              >
-            </form>
-          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% if check != blank %}
+        <li>
+          {% render 'featured-collection-product', product:product, %}
         </li>
       {% endif %}
     {% endfor %}
