@@ -1,6 +1,17 @@
 {% comment %}
-  product: product object
+  Renders a product card
+
+  Accepts:
+  - product: product object
+  - button_bg: color setting for button background color
+  - button_text: text for button
 {% endcomment %}
+
+<style>
+  .featured-products__collection .item__inner .action-btn{
+    background-color: {{ button_bg }};
+  }
+</style>
 
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 <div class="featured-products__collection--item">
@@ -52,7 +63,8 @@
           aria-live="polite"
           data-sold-out-message="true"
         >
-          Add to cart - {{ product.price | money_without_trailing_zeros }}
+          {{ button_text }}
+          {{ product.price | money_without_trailing_zeros }}
         </button>
         <div class="loading-overlay__spinner hidden" style="display: none;">
           <svg
