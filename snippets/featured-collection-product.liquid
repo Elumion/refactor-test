@@ -1,0 +1,71 @@
+{% comment %}
+  product: product object
+{% endcomment %}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<div class="featured-products__collection--item">
+  {% assign product_image = product.featured_image %}
+  {% if product_image != blank %}
+    <a class="item__link" href="{{ product.url }}">
+      <img
+        class="item__img"
+        src="{{ product_image | image_url: width: product_image.width }}"
+        alt="{{ product_image.alt }}"
+        width="500"
+        height="500"
+      >
+    </a>
+  {% endif %}
+  <div class="item__inner">
+    {% if product.title != blank %}
+      <h3 class="item__inner--title">
+        <a class="item__link" href="{{ product.url }}">{{ product.title }}</a>
+      </h3>
+    {% endif %}
+
+    {%- liquid
+      assign product_form_id = 'quick-add-' | append: section_id | append: product.variants.first.id
+    -%}
+
+    <product-form data-section-id="{{ section.id }}" data-hide-on-add>
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ product.selected_or_first_available_variant.id }}"
+          class="product-variant-id"
+          disabled
+        >
+        <button
+          id="{{ product_form_id }}-submit"
+          type="submit"
+          name="add"
+          class="btn action-btn"
+          aria-haspopup="dialog"
+          aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+          aria-live="polite"
+          data-sold-out-message="true"
+        >
+          Add to cart - {{ product.price | money_without_trailing_zeros }}
+        </button>
+        <div class="loading-overlay__spinner hidden" style="display: none;">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="spinner"
+            viewBox="0 0 66 66"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+          </svg>
+        </div>
+      {%- endform -%}
+    </product-form>
+  </div>
+</div>
